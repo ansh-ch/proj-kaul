@@ -1,5 +1,7 @@
 Ultimate tic tac toe with modified rules
 
+team15.py is my bot module
+
 the Game:
 • Ultimate TicTacToe is an extension of the 3x3 TicTacToe, where there are 9 blocks each having 3x3 cells.
 • Each game is between two teams.
