@@ -1,0 +1,7 @@
+{{extend 'layout.html'}}
+<br/>
+<br/>
+<br/>
+<div style="margin-right:30%;margin-left:15%">
+    {{=form}}
+</div>

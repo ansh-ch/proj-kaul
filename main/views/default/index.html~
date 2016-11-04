@@ -1,0 +1,11 @@
+{{left_sidebar_enabled,right_sidebar_enabled=False,('message' in globals())}}
+{{extend 'prevlayout.html'}}
+<h3>
+    <a href='/Proj1/default/addrest'> Add_Restaurant</a>
+    <br/>
+    <a href='/Proj1/default/addmenu'> Add_Menu</a>
+</h3>
+<h3>{{=message}}</h3>
+<br/>
+<br/>
+{{=form}}

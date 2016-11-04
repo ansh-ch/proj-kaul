@@ -1,0 +1,18 @@
+{{extend 'layout.html'}}
+<table class="table">
+    <th>Item</th>
+    <th>Veg/Nveg</th>
+    <th>Price</th>
+    <th>Delete</th>
+    {{for row in rows:}}
+    <tr>
+        <td>{{=row.Item}}</td>
+        <td>{{=row.NVeg}}</td>
+        <td>{{=row.Price}}</td>
+        {{x=row.id}}
+        <td style="color:black"><a href="{{=URL('pend')}}" ><input type="button" value="Delete"  onClick="ajax('{{=URL('default', 'delete3' ,args=x)}}',[],'target')" /></a></td>
+    </tr>
+    {{pass}}
+</table>
+<div id="target">
+</div>

@@ -1,0 +1,38 @@
+#lang racket
+(require eopl/eopl)
+(provide (all-defined-out))
+
+(define id?
+  (λ (id)
+    (symbol? id)))
+
+(define opcheck
+  (λ (op)
+    (λ (opitem)
+      (equal? opitem op)
+      )))
+
+(define op?
+  (λ (op)
+    (or (ormap (opcheck op) '(+ - / * < > = <= >= != 0?)) id?)
+        ))
+              
+
+(define-datatype bind bind?
+  [binding (bvar id?) (bast ast?)] )
+  
+(define-datatype fbind fbind?
+  [ftied (fname id?) (fvind (list-of id?)) (body ast?)])
+
+(define-datatype ast ast?
+  [number (n number?)]
+  [boolean (b boolean?)]
+  [var-ref (id id?)]
+  [prim-app (op ast?)(rands (list-of ast?))]
+  [assume (binds (list-of bind?))(body ast?)]
+  [ifte (test ast?)(then ast?)(else ast?)]
+  [function (param (list-of id?)) (body ast?)]
+  [recfun (formals (list-of fbind?)) (body ast?)]
+  [assign (id1 id?) (val ast?)]
+  [seq (bods (list-of ast?))]
+  )

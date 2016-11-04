@@ -1,0 +1,14 @@
+{{extend 'layout.html'}}
+<h1>Your Restaurant is:</h1>
+<table class="table">
+    <th>Restaurant</th>
+    <th>Rating</th>
+    <th>Cuisine</th>
+{{for row in rows:}}
+    <tr>
+        <td>{{=row.Rest}}</td>
+        <td>{{=row.Rating}}</td>
+        <td>{{=row.Cuisine}}</td>
+    </tr>
+{{pass}}
+</table>

@@ -1,0 +1,19 @@
+{{extend 'layout.html'}}
+</br>
+</br>
+</br>
+</br>
+</br>
+<h3>Thank you for ordering. Your order will be delivered at {{=session.address}}.
+</h3>
+<!--db.table.insert()col=val,col=val-->
+{{i=0}}
+{{for i in range(len(session.cartItem)):}}
+{{db.Pending.insert(Rest=session.cartRest[session.cartItem[i]],User=auth.user.username,Address=session.address,Item=session.cartItem[i],Count=int(session.cartNum[session.cartItem[i]]),Price=int(session.cartPrice[i]))}}
+{{pass}}
+
+{{ session.cartRest={} }}
+{{ session.cartItem=[] }}
+{{ session.cartNum={} }}
+{{ session.cartPrice=[] }}
+{{ session.cartNVeg=[] }}

@@ -1,0 +1,17 @@
+{{extend 'layout.html'}}
+</br>
+</br>
+</br>
+</br>
+<div style="margin-left:10% ; margin-right:35%">
+{{=form}}
+</div>
+<br>
+<br>
+<br>
+<br>
+<h1>
+<div style="margin-left:24%">
+    <a href="{{=URL('menudisplay')}}"><input type="button" value="View_Menu"/></a>
+</div>
+</h1>

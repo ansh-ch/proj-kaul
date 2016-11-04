@@ -1,0 +1,318 @@
+#!/usr/bin/env python
+import re
+
+def check_end(ls):
+    flag=False
+    for i in range(len(ls)):
+        if ls[i]>0:
+            flag=True
+            ls[i]=ls[i]-1
+
+    return flag
+
+def were_wolf(reference,out,sql_andor,ls,err_flag):
+    
+    lft=""
+    ryt=""
+    l=""
+    r=""
+    tempout=[]
+
+    if err_flag==0:
+        for i in out[1]:
+            and_flag=0
+            for j in ls:
+                lft=j[0]
+                ryt=j[1]
+
+                lft=reference[lft]
+                lft=out[0].index(lft)
+                lft=i[lft]
+                try:
+                    ryt=int(ryt)
+                except:
+                    try:
+                        ryt=reference[ryt]
+                        ryt=out[0].index(ryt)
+                        ryt=i[ryt]
+                    except:
+                        ryt=str(ryt)
+                lft=str(lft)
+                try:
+                    ryt=ryt.replace("'","")
+                except:
+                    lft=str(lft)
+                try:
+                    ryt=ryt.replace("\"","")
+                except:
+                    lft=str(lft)
+                if str(lft)==str(ryt) and sql_andor=="and":
+                    and_flag=and_flag+1
+                    if and_flag==2:
+                        tempout.append(i)
+                else:
+                    if str(lft)==str(ryt):
+                        tempout.append(i)
+                        break
+
+        out[1]=tempout
+        
+        return out
+
+    
+def were(out,sql_conds,sql_andor,reference):
+    ls=[]
+    err_flag=0
+    
+    if sql_andor=="":
+        s1=sql_conds[0]
+        try:
+            s1=s1[:s1.find(';'):]
+        except:
+            err_flag=1
+        try:
+            ls.append(s1.split('='))
+        except:
+            err_flag=1
+        
+    else:
+        for i in range(len(sql_conds)):
+            s1=sql_conds[i]
+            if i==len(sql_conds)-1:
+                try:
+                    s1=s1[:s1.find(';'):]
+                except:
+                    err_flag=1
+            try:
+                ls.append(s1.split('='))
+            except:
+                err_flag=1
+        print ls
+
+
+    return were_wolf(reference,out,sql_andor,ls,err_flag)
+
+
+def join(tbto_append,reference, out, list_of_dics, sql_conds, sql_andor):
+    
+    ls_collen=[]  #column lengths of new table
+    lsnameno=[]   #(tabno, col name)
+    for i in reference.keys():
+        if reference[i][0]==tbto_append and reference[i] not in lsnameno:
+            temp=reference[i][1]
+            ls_collen.append(len( list_of_dics[tbto_append][temp]))
+            lsnameno.append(reference[i])
+
+    
+    ls_colnames=[]
+    old_tb=[]
+
+    if out!=[] and out!=None:
+        ls_colnames=out[0]  #lsnameno to be appended to this in end
+        old_tb=out[1]
+
+
+    result=[]
+    num=0
+
+    while check_end(ls_collen):
+        ls_temp=[]
+        for i in lsnameno:
+            ls_temp.append(list_of_dics[i[0]][i[1]][num])
+
+        if old_tb!=[]:
+            for i in range(len(old_tb)):
+                result.append(old_tb[i] + ls_temp)
+        else:
+            result.append(ls_temp)
+
+        num=num+1
+
+    return [ls_colnames+lsnameno, result]
+        
+
+def gag_sep(display_cols):
+    agg =[]
+    ls =[]
+    choice=['max(','min(','average(','distinct(','sum(','MAX(','MIN(','AVERAGE(','DISTINCT(','SUM(']
+    for i in display_cols:
+        temp1=i
+        temp2=""
+        for j in choice:
+            if j in i:
+                temp1=i[i.find('(')+1: i.find(')'):1]
+                temp2=j[:j.find(')'):]
+        ls.append(temp1)
+        agg.append(temp2)
+
+    return (ls,agg)
+
+def maxx(out,num):
+    ret=-10000000000
+    for i in range(len(out[1])):
+        if ret< int(out[1][i][num]):
+            ret=int(out[1][i][num])
+    return [ret]
+
+def minn(out,num):
+    ret=10000000000
+    for i in range(len(out[1])):
+        if ret> int(out[1][i][num]):
+            ret=int(out[1][i][num])
+    return [ret]
+
+def summ(out,num):
+    ret=0
+    for i in range(len(out[1])):
+        ret=ret+int(out[1][i][num])
+    print ret
+    return [ret]
+
+def distinct(out,num):
+    ret=[]
+    for i in range(len(out[1])):
+        if out[1][i][num] not in ret:
+            ret.append(out[1][i][num])
+    return ret
+
+def gag_process(out, display_cols, agg, tables, reference):
+    final=[]
+    ls_temp=[]
+    ls_indice=[]
+    for i in display_cols:
+        temp=tables[reference[i][0]]+"."+reference[i][1]
+        temp_ind=out[0].index(reference[i])
+        ls_temp.append(temp)
+        ls_indice.append(temp_ind)
+
+    final.append(ls_temp)
+
+    ls_temp=[]
+    flag=0
+    special_ls=[]
+    for i in range(len(agg)):
+        special_ls.append([])
+
+
+    for i in range(len(display_cols)):
+        if agg[i].lower() =='max':
+            flag=1
+            special_ls[i].extend(maxx(out,ls_indice[i]))
+        else:
+            if agg[i].lower() =='min':
+                flag=1
+                special_ls[i].extend(minn(out,ls_indice[i]))
+            else:
+                if agg[i].lower() == 'average':
+                    flag=1
+                    temp=summ(out,ls_indice[i])
+                    special_ls[i].append(int(temp[0])/(len(out[1])) )
+                else:
+                    if agg[i].lower() == 'distinct':
+                        flag=1
+                        special_ls[i].extend(distinct(out,ls_indice[i]))
+                    else:
+                        if agg[i].lower() == 'sum':
+                            flag=1
+                            special_ls[i].extend(summ(out,ls_indice[i]))
+
+
+    if flag==0:
+        potter=str(final[0]).replace('[','<')
+        potter=potter.replace(']','>')
+        print potter
+        for i in range(len(out[1])):
+            s=[]
+            for j in ls_indice:
+                s.append(out[1][i][j])
+            print s
+
+    if flag==1:
+        potter=str(final[0]).replace('[','<')
+        potter=potter.replace(']','>')
+        print potter
+        min_ls=100000000000000000
+        for i in range(len(special_ls)):
+            if min_ls> len(special_ls[i]) and len(special_ls[i])>0:
+                min_ls=len(special_ls[i])
+
+
+        for i in range(min_ls):
+            s=[]
+            for j in range(len(ls_indice)):
+                ind=ls_indice[j]
+                if len(special_ls[j]) >0 :
+                    s.append(special_ls[j][i])
+                else:
+                    s.append(out[1][i][ind])
+        
+            print s
+
+
+                        
+    
+
+def run(tables,list_of_dics,display_cols,sql_tables,sql_conds,sql_andor):
+
+    reference={}
+    flag=0
+    sql_tbno=[]
+
+    for i in range(len(list_of_dics)):
+        if tables[i] in sql_tables:
+            d=list_of_dics[i]
+            sql_tbno.append(i)
+            for j in d.keys():
+                s=""
+                s=tables[i]+"."+j
+                reference[s]=[i, j]
+    
+
+    for i in reference.keys():
+        flag=0
+        for j in reference.keys():
+            if j!=i and reference[j][1] == reference[i][1]:
+                flag=1
+        if flag==0:
+            s=""
+            s=reference[i][1]
+            reference[s]=reference[i]
+
+##################### ----> flag SET TO 0
+############ Checked if display_cols are valid below
+    flag=0
+
+    agg=[]
+
+    if display_cols[0]=='*':
+        display_cols=[]
+        for i in reference.keys():
+            if i.find('.')>0:
+                display_cols.append(i)
+
+    (display_cols,agg)=gag_sep(display_cols)
+
+    for i in display_cols:
+        if i not in reference.keys():
+            flag=1
+                    
+    out=[]
+    if flag==0:
+        for i in sql_tbno:
+            out=join(i,reference, out, list_of_dics, sql_conds, sql_andor)
+        
+
+        if sql_conds!=[]:
+            try:
+                out=were(out,sql_conds,sql_andor, reference)
+            except:
+                flag=1
+        
+        if flag==0:
+            if out[1]!=[]:
+                gag_process(out, display_cols, agg, tables,reference)
+            else:
+                print []
+                
+    if flag==1:
+        print "Error__ Identifier names incorrect"

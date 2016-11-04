@@ -1,0 +1,40 @@
+{{extend 'layout.html'}}
+<h2>Restaurants in {{=city}}</h2>
+<br/>
+<table class='table'>
+    <th>Company's Icon</th>
+    <th>Rest_Name</th>
+    <th>Rating</th>
+    <th>Cuisine</th>
+    {{for row in rows:}}
+    {{probs=db( row.User==db.auth_user.username ).select()}}
+    {{if len(probs)>0:}}
+    <tr>
+        <td><img src="{{=URL('download',args=row.Logo)}} "  width="72" height= "72" ></td>
+        <td><a href="{{=URL('second',args=row.Rest)}}" style="color:gold">{{=row.Rest}}</a></td>
+        <td><img src="{{=URL('static','like.jpg')}}" alt="like" height="30" width="30" 
+                 onClick="ajax('{{=URL('default','change',args=[1,row.Rest,row.Rating])}}',[],'zxcxz')"/> 
+            <div onClick="ajax('{{=URL('default','change',args=[0,row.Rest,row.Rating])}}',[],'zxcxz')">click to see rating</div>
+            <img src="{{=URL('static','dislike.jpg')}}" alt="dislike" height="30" width="30" 
+                     onClick="ajax('{{=URL('default','change',args=[-1,row.Rest,row.Rating])}}',[],'zxcxz')">
+        </td>
+        <td>{{=row.Cuisine}}</td>
+    </tr>
+    {{pass}}
+    {{pass}}
+</table>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<table class="table">
+    <th>Rating:</th>
+    <th><h4 id="zxcxz" style="color:orange"></h4></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+</table>

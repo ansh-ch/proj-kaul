@@ -1,0 +1,50 @@
+db = DAL('sqlite://storage.db')
+
+from gluon.tools import Auth
+auth = Auth(db)
+auth.settings.table_user_name = 'auth_user'
+auth.settings.extra_fields['auth_user']= [Field('Address','string',notnull=True),Field('city','string',notnull=True),Field('Contact',length=10)]
+
+auth.define_tables(username=True)
+auth.verify_Email=True
+
+db.define_table('Main',
+        Field('Rest','string',requires = IS_NOT_EMPTY()),
+        Field('Cuisine','string',requires = IS_NOT_EMPTY()),
+        Field('Rating','integer',requires = IS_NOT_EMPTY()),
+        Field('City','string',requires = IS_NOT_EMPTY()),
+        format='%(Rest)s'
+)
+
+db.define_table('TheOrder',
+        Field('Rest','string',requires = IS_NOT_EMPTY()),
+        Field('Foodit','string',requires = IS_NOT_EMPTY()),
+        Field('Price','integer',requires = IS_NOT_EMPTY())
+)
+
+db.define_table('Menu',
+                Field('Rest','string',requires = IS_NOT_EMPTY()),
+        Field('NVeg','string',requires = IS_NOT_EMPTY()),
+        Field('Item','string',requires = IS_NOT_EMPTY()),
+        Field('Price','integer',requires = IS_NOT_EMPTY())
+)
+
+db.define_table('Pending',
+        Field('User','string',requires = IS_NOT_EMPTY()),
+        Field('Address','string',requires = IS_NOT_EMPTY()),
+        Field('iOrder','string',requires = IS_NOT_EMPTY()),
+        Field('Price','integer',requires = IS_NOT_EMPTY())
+)
+
+db.define_table('Memship',
+        Field('Typer','string',requires=IS_NOT_EMPTY())
+)
+
+db.define_table('Cities',
+        Field('Name','string',requires=IS_NOT_EMPTY()),
+        format='%(Name)s'
+)
+
+
+#db.TheOrder.Rest.requires = IS_IN_DB(db,db.Main.id,'%(Rest)s')
+#db.Pending.requires = IS_IN_DB(db,'User.id','%  s')

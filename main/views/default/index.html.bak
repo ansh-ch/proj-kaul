@@ -1,0 +1,11 @@
+{{extend 'prevlayout.html'}}
+<h1 style="margin-left:36%">
+    <b>
+        {{=message}}
+    </b>
+</h1>
+<div style="margin-top:10%">
+    <div style="margin-right:30%;margin-left:20%">
+        {{=form}}
+    </div>
+</div>

@@ -1,0 +1,15 @@
+{{extend 'layout.html'}}
+<table class="table">
+    <th>Restaurant Name</th>
+    <th>Rating</th>
+    <th>Cuisine</th>
+    {{for row in rows:}}
+    <tr>
+        <td>{{=row.Rest}}</td>
+        <td>{{=row.Rating}}</td>
+        <td>{{=row.Cuisine}}</td>
+        {{x=row.Rest}}
+         <td style="color:black"><a href="{{=URL('restdisplay')}}" ><input type="button" value="Delete"  onClick="ajax('{{=URL('default', 'delete3' ,args=x)}}',[],'target')" /></a></td>
+    </tr>
+    {{pass}}
+</table>

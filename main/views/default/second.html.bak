@@ -1,0 +1,26 @@
+{{extend 'layout.html'}}
+<table class="table">
+    <th>Image</th>
+    <th>Add to Cart</th>
+    <th>Item</th>
+    <th>Veg/Nveg</th>
+    <th>Price</th>
+{{for row in rows:}}
+    <tr>
+        <td><image src="{{=URL('download',args=row.Image)}}" width="72" height= "72" alt="No image available"/></td>
+        <td>
+           <a href="{{=(URL('cart',vars=dict(Item=row.Item,NVeg=row.NVeg,Price=row.Price)))}}">
+               Add
+           </a>
+        </td>
+        {{if int(row.NVeg==1) :}}
+        {{x="Veg"}}
+        {{else:}}
+        {{x="Non-Veg"}}
+        {{pass}}
+        <td>{{=row.Item}}</td>
+        <td>{{=x}}</td>
+        <td>{{=row.Price}}</td>
+    </tr>
+{{pass}}
+</table>

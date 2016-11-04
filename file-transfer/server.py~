@@ -1,0 +1,27 @@
+import socket
+
+host = '127.0.0.1'
+port = 12345
+
+sockfd = socket.socket()
+
+sockfd.bind((host,port))
+
+sockfd.listen(1)
+fwrite = open("testout","wb")
+
+while 1:
+	line = 'abc'
+	c,addr = sockfd.accept()
+	print "got connection from", addr
+
+	while line:
+		line = c.recv(1024)
+		fwrite.write(line)
+
+	print "Closing connection"
+	c.close()
+	
+sockfd.close()
+
+

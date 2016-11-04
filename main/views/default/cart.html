@@ -1,0 +1,39 @@
+{{extend 'cartlayout.html'}}
+<h3 style="color:silver" >
+    Hi {{=name}}, you have added:
+</h3>
+{{x=0}}
+<table  class="table" style="align-left:50%" >
+    <th>Merchandise</th>
+    <th>Item name</th>
+    <th>Count</th>
+    <th>Veg/Nveg</th>
+    <th>Price</th>
+    <th>Delete</th>
+    {{for i in range(len(session.cartItem)):}}
+    {{x+=(int(session.cartPrice[i])*session.cartNum[session.cartItem[i]])}}
+    <tr>
+        <td>{{=session.cartRest[session.cartItem[i]]}}</td>
+        <td>{{=session.cartItem[i]}}</td>
+        <td>{{=session.cartNum[session.cartItem[i]]}}</td>
+        <td>{{=session.cartNVeg[i]}}</td>
+        <td>{{=session.cartPrice[i]}}</td>
+        <td><a href="{{=URL('cart/')}}" ><input type="button" value="Delete" onClick="ajax('{{=URL('default', 'delete',args=i)}}',[],'target')"/></a></td>
+    </tr>
+    {{pass}}
+{{y='/index'}}
+</table>
+{{if session.city!=None :}}
+{{y='first?city=' + session.city}}
+{{pass}}
+<a href="{{=(URL(y))}}">
+    <input type="submit" value="Add_More+"></input>
+</a>
+{{session.payment=x}}
+<a href="{{=URL('paycontrol')}}">
+    <input type="submit" value="Pay" ></input>
+</a>
+<h1 style="margin-left:70%">
+    <div>YOUR TOTAL IS = &#8377 {{=x}}</div>
+</h1>
+<div id="target"></div>
