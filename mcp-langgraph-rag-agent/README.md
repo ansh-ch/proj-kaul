@@ -11,7 +11,7 @@ The project uses fictional policy documents to demonstrate a basic agentic RAG w
 - reflection-based lesson storage
 - a lightweight evaluation script
 
-The sample policy files are demo/ fictional data only. They do not any company's policies.
+The sample policy files are demo/ fictional data only. They do not represent any company's policies.
 
 ## Project structure
 
