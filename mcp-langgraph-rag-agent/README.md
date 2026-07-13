@@ -4,29 +4,29 @@ A small hands-on project exploring how MCP tools can be used with a LangGraph ag
 
 The project uses fictional policy documents to demonstrate a basic agentic RAG workflow:
 
-- local document indexing with Chroma
-- MCP servers for policy search and memory
-- LangGraph for agent orchestration
-- simple metadata filtering
-- reflection-based lesson storage
-- a lightweight evaluation script
+* local document indexing with Chroma
+* MCP servers for policy search and memory
+* LangGraph for agent orchestration
+* simple metadata filtering
+* reflection-based lesson storage
+* a lightweight evaluation script
 
-The sample policy files are demo data only. They do not represent Bain & Company policies or the policies of any real employer.
+The sample policy files are demo data only. They do not represent and company's policies.
 
 ## Project structure
 
 ```text
 src/
-  agent_builder.py                 # reusable LangGraph agent builder
-  run_agent.py                     # interactive command-line runner
-  rag_local.py                     # builds the local Chroma index
-  rag_mcp_server.py                # MCP server exposing policy search
-  memory_mcp_server.py             # MCP server exposing memory tools
-  self_improving_rag_agent.py      # reflection + lesson storage demo
-  eval_self_improving_agent.py     # simple evaluation harness
+  agent\_builder.py                 # reusable LangGraph agent builder
+  run\_agent.py                     # interactive command-line runner
+  rag\_local.py                     # builds the local Chroma index
+  rag\_mcp\_server.py                # MCP server exposing policy search
+  memory\_mcp\_server.py             # MCP server exposing memory tools
+  self\_improving\_rag\_agent.py      # reflection + lesson storage demo
+  eval\_self\_improving\_agent.py     # simple evaluation harness
 
 data/
-  sample_docs/                     # fictional demo policy documents
+  sample\_docs/                     # fictional demo policy documents
 ```
 
 ## Setup
@@ -40,7 +40,7 @@ pip install -r requirements.txt
 Create a `.env` file in the project root:
 
 ```bash
-OPENAI_API_KEY=your_key_here
+OPENAI\_API\_KEY=your\_key\_here
 ```
 
 ## Run
@@ -48,13 +48,13 @@ OPENAI_API_KEY=your_key_here
 First build the local vector database:
 
 ```bash
-python src/rag_local.py
+python src/rag\_local.py
 ```
 
 Then start the interactive agent:
 
 ```bash
-python src/run_agent.py
+python src/run\_agent.py
 ```
 
 You can ask questions such as:
@@ -70,7 +70,7 @@ When do I need to submit travel expenses?
 Run the basic evaluation script:
 
 ```bash
-python src/eval_self_improving_agent.py
+python src/eval\_self\_improving\_agent.py
 ```
 
 The current evaluation is intentionally simple and checks whether answers contain expected terms. It is meant as a starting point, not a production-grade evaluation framework.
@@ -79,23 +79,13 @@ The current evaluation is intentionally simple and checks whether answers contai
 
 This is an educational prototype, not a production system. Some areas that could be improved later:
 
-- semantic memory using embeddings
-- reranking retrieved chunks
-- hybrid keyword + vector search
-- stronger evaluation with an LLM judge
-- tracing with LangSmith
-- API or UI layer
-- Dockerized setup
+* semantic memory using embeddings
+* reranking retrieved chunks
+* hybrid keyword + vector search
+* stronger evaluation with an LLM judge
+* tracing with LangSmith
+* API or UI layer
+* Dockerized setup
 
-## Do not commit
-
-The following should stay out of GitHub:
-
-```text
-.env
-.venv/
-__pycache__/
-data/chroma_db/
-data/memory_store.json
-data/eval_results.json
 ```
+
