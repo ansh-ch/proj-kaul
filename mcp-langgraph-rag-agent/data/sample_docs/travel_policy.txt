@@ -1,0 +1,8 @@
+Title: Travel Reimbursement Policy
+Department: Finance
+Region: Global
+
+Employees must submit travel expenses within 30 days of trip completion.
+Air travel should be booked in economy class unless business class is pre-approved.
+Hotel expenses must include an itemized receipt.
+Meals are reimbursable up to the daily limit defined by the finance team.

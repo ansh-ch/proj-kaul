@@ -1,0 +1,8 @@
+Title: IT Security Policy
+Department: IT
+Region: Global
+
+Employees must use multi-factor authentication for all corporate applications.
+Company laptops must use full disk encryption.
+Passwords should not be shared over email or chat.
+Any suspected phishing email should be reported to the IT security team immediately.
