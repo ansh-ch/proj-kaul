@@ -17,16 +17,16 @@ The sample policy files are demo/ fictional data only. They do not represent any
 
 ```text
 src/
-  agent\\\\\\\_builder.py                 # reusable LangGraph agent builder
-  run\\\\\\\_agent.py                     # interactive command-line runner
-  rag\\\\\\\_local.py                     # builds the local Chroma index
-  rag\\\\\\\_mcp\\\\\\\_server.py                # MCP server exposing policy search
-  memory\\\\\\\_mcp\\\\\\\_server.py             # MCP server exposing memory tools
-  self\\\\\\\_improving\\\\\\\_rag\\\\\\\_agent.py      # reflection + lesson storage demo
-  eval\\\\\\\_self\\\\\\\_improving\\\\\\\_agent.py     # simple evaluation harness
+  agent\_builder.py                 # reusable LangGraph agent builder
+  run\_agent.py                     # interactive command-line runner
+  rag\_local.py                     # builds the local Chroma index
+  rag\_mcp\_server.py                # MCP server exposing policy search
+  memory\_mcp\_server.py             # MCP server exposing memory tools
+  self\_improving\_rag\_agent.py      # reflection + lesson storage demo
+  eval\_self\_improving\_agent.py     # simple evaluation harness
 
 data/
-  sample\\\\\\\_docs/                     # fictional demo policy documents
+  sample\_docs/                     # fictional demo policy documents
 ```
 
 ## Setup
@@ -40,7 +40,7 @@ pip install -r requirements.txt
 Create a `.env` file in the project root:
 
 ```bash
-OPENAI\\\\\\\_API\\\\\\\_KEY=your\\\\\\\_key\\\\\\\_here
+OPENAI\_API\_KEY=your\_key\_here
 ```
 
 ## Run
@@ -48,13 +48,13 @@ OPENAI\\\\\\\_API\\\\\\\_KEY=your\\\\\\\_key\\\\\\\_here
 First build the local vector database:
 
 ```bash
-python src/rag\\\\\\\_local.py
+python src/rag\_local.py
 ```
 
 Then start the interactive agent:
 
 ```bash
-python src/run\\\\\\\_agent.py
+python src/run\_agent.py
 ```
 
 You can ask questions such as:
@@ -70,7 +70,7 @@ When do I need to submit travel expenses?
 Run the basic evaluation script:
 
 ```bash
-python src/eval\\\\\\\_self\\\\\\\_improving\\\\\\\_agent.py
+python src/eval\_self\_improving\_agent.py
 ```
 
 The current evaluation is intentionally simple and checks whether answers contain expected terms. It is meant as a starting point, not a production-grade evaluation framework.
